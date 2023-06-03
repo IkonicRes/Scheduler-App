@@ -31,11 +31,17 @@ $(window).on('load', function() {
           $(hourContainer).append(hourDiv)
         }
       }
+      function updateSchedule(entryToUpdate)
       const currentDate = dayjs().format("dddd, MMMM Do")
       var currentTime = dayjs().hour()
       $("#current-day").text(currentDate)
       createSchedule(currentTime)
+      allSaveBtn = $(".saveBtn")
       
+      $(allSaveBtn).on("click", function() {
+        for(let index = 0; index < allSaveBtn.length; index++){
+          savedText = (this.attr('id') + "%" + this.textContent())
+      })
     // TODO: Add a listener for click events on the save button. This code should
     // use the id in the containing time-block as a key to save the user input in
     // local storage. HINT: What does `this` reference in the click listener
