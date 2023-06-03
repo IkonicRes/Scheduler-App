@@ -9,7 +9,7 @@ $(window).on('load', function() {
 
   function createSchedule(currentHour) {
     let currentSchedule = localStorage.getItem('schedule')
-    let startHour = (currentHour - 5 + 24) % 24;
+    let startHour = (currentHour - 9 + 24) % 24;
     if (startHour < 0) {
       startHour += 24;
     }
@@ -27,9 +27,9 @@ $(window).on('load', function() {
         tLabelText = currentSchedule[altIndex].split("%").pop()
       }
 
-      let timeRelevance
-      if (index < 4) timeRelevance = "past"
-      else if (index > 4 && index !== 21) timeRelevance = "future"
+      let timeRelevance = ""
+      if (index < 9) timeRelevance = "past"
+      else if (index > 9 && index !== 25) timeRelevance = "future"
       else timeRelevance = "present"
 
       let hourDiv = $('<div id="hour-' + altIndex + '"' + ' class="row time-block ' + timeRelevance + '"></div>')
