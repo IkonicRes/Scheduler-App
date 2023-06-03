@@ -3,6 +3,9 @@ body {
     font-size: 16px;
     height: 100%;
 }
+.hour {
+    transition: margin-top 1s;
+}
 
 textarea {
 background: transparent;
@@ -12,6 +15,7 @@ color: #000000;
 border-left: 1px solid black;
 padding: 10px;
 }
+
 #time-text-box {
     background-color: #06aed5;
     color: whitesmoke;

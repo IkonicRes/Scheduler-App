@@ -1,7 +1,6 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
-// in the html.\
-
+// in the html.
 
 $(window).on('load', function() {
   const td = new Date()
@@ -13,7 +12,7 @@ $(window).on('load', function() {
     }
     for(index = 0; index < 24; index++){
       let hour = index % 12; 
-      hour = (hour === 0) ? 12 : hour; // to make 12 AM and 12 PM instead of 0
+      hour = (hour === 0) ? 12 : hour
       let meridiem = (index < 12 || index === 24) ? "AM" : "PM";
       let timeVal = hour + meridiem
       let tLabelText = ""
@@ -40,20 +39,48 @@ $(window).on('load', function() {
       $(hourContainer).append(hourDiv)
     }
   }
-  let msUntilNextHour = 60 * 60 * 1000 - (new Date().getTime() % (60 * 60 * 1000))
+
+  function createHourDiv(hour) {
+    let hourVal = hour % 12 === 0 ? 12 : hour % 12; // Convert to 12-hour format
+    let meridiem = hour < 12 || hour === 24 ? "AM" : "PM"; // Determine AM or PM
+    let timeVal = hourVal + meridiem;
+    let timeRelevance = hour === currentTime ? "present" : hour < currentTime ? "past" : "future"
+
+    let hourDiv = $('<div id="hour-' + timeVal + '"' + ' class="row time-block ' + timeRelevance + '"></div>')
+    let timeText = $('<div class="col-2 col-md-1 hour text-center py-3" id="time-text-box">' + timeVal + '</div>')
+    let inputArea = $('<textarea class="col-8 col-md-10 description" rows="3"></textarea>')
+    let saveButton = $('<button class="btn saveBtn col-2 col-md-1" aria-label="save"></button>')
+    let saveImage = $('<i class="fas fa-save" aria-hidden="true"></i>')
+
+    hourDiv.append(timeText, inputArea, saveButton.append(saveImage))
+
+    return hourDiv;
+  }
+
+  let msUntilNextHour = .1 
+  // 60 * 60 * 1000 - (new Date().getTime() % (60 * 60 * 1000))
   setTimeout(function() {
       updateHour()
       setInterval(updateHour, 60 * 60 * 1000)
+  })
 
   function updateHour() {
-    let newHour = (currentTime + 13) % 24
+    let newHour = (currentTime + 15) % 24
     let newHourDiv = createHourDiv(newHour)
-    hourContainer.children().first().remove()
-    hourContainer.append(newHourDiv)
+    // Fade out the first child and remove it after it's hidden
+    hourContainer.children().first().fadeOut(function() { $(this).remove()})
+    // Animate the change in margin-top
+    hourContainer.animate({ marginTop: "-=100px" }, 1000, function() {
+    hourContainer.css({ marginTop: "0px" })
+    hourContainer.children().first().remove() // Remove the first hour after the animation finishes
+})
+     // Append the new child and fade it in
+     hourContainer.append(newHourDiv)
+     newHourDiv.hide().fadeIn()
     currentTime = (currentTime + 1) % 24
   }
 
-  setInterval(updateHour, 60 * 60 * 1000);
+  setInterval(updateHour, 60 * 60 * 1000)
 
   function updateSchedule(newSchedule){
     if (scheduleExists){
@@ -78,23 +105,4 @@ $(window).on('load', function() {
       })
       updateSchedule(tScheduleArr)
   })
-
-  // TODO: Add a listener for click events on the save button. This code should
-// use the id in the containing time-block as a key to save the user input in
-// local storage. HINT: What does `this` reference in the click listener
-// function? How can DOM traversal be used to get the "hour-x" id of the
-// time-block containing the button that was clicked? How might the id be
-// useful when saving the description in local storage?
-//
-// TODO: Add code to apply the past, present, or future class to each time
-// block by comparing the id to the current hour. HINTS: How can the id
-// attribute of each time-block be used to conditionally add or remove the
-// past, present, and future classes? How can Day.js be used to get the
-// current hour in 24-hour time?
-//
-// TODO: Add code to get any user input that was saved in localStorage and set
-// the values of the corresponding textarea elements. HINT: How can the id
-// attribute of each time-block be used to do this?
-//
-// TODO: Add code to display the current date in the header of the page.
-  });
+})
