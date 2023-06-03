@@ -12,7 +12,11 @@ color: #000000;
 border-left: 1px solid black;
 padding: 10px;
 }
-
+#time-text-box {
+    background-color: #06aed5;
+    color: whitesmoke;
+    border-radius: 1rem 0em 0em 1rem;
+}
 .description {
 white-space: pre-wrap;
 }
@@ -32,17 +36,17 @@ border-top: 1px dashed #000000;
 }
 
 .past {
-background-color: #d3d3d3;
+background-color: #ff4f4f;
 color: white;
 }
 
 .present {
-background-color: #ff6961;
+background-color: #31e734;
 color: white;
 }
 
 .future {
-background-color: #77dd77;
+background-color: #46ddff;
 color: white;
 }
 
