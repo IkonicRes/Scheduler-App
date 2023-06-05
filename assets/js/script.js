@@ -47,6 +47,7 @@ $(window).on('load', function() {
   }
 
   function createHourDiv(hour) {
+    
     let hourVal = hour % 12 === 0 ? 12 : hour % 12 // Convert to 12-hour format
     let meridiem = hour < 12 || hour === 24 ? "AM" : "PM" // Determine AM or PM
     let timeVal = hourVal + meridiem;
