@@ -1,8 +1,9 @@
 $(window).on('load', function() {
-  const td = new Date()
   const hourContainer = $("#time-container")
   let scheduleExists = (localStorage.getItem('schedule') !== null)
   let currentTime = dayjs().hour()
+  const currentDate = dayjs().format("dddd, MMMM Do")
+  $("#current-day").text(currentDate)
 
   function createEmptySchedule() {
     let emptySchedule = [];
@@ -11,16 +12,14 @@ $(window).on('load', function() {
     }
     return emptySchedule;
   }
+
   function createSchedule(currentHour) {
     let currentSchedule = localStorage.getItem('schedule')
-    let startHour = (currentHour - 9 + 24) % 24
-    if (startHour < 0) {
-      startHour += 24
-    }
+    let startHour = 0
     if (scheduleExists) {
       currentSchedule = JSON.parse(localStorage.getItem('schedule'))
     }
-    for (index = 0; index <= 24; index++) {
+    for (index = 0; index <= 23; index++) {
       let altIndex = (startHour + index) % 24
       let hour = altIndex % 12
       hour = (hour === 0) ? 12 : hour
@@ -80,19 +79,18 @@ $(window).on('load', function() {
     const formattedSchedule = newSchedule.map((scheduleItem, hourIndex) => {
       const meridiem = hourIndex < 12 || hourIndex === 24 ? "AM" : "PM"
       const currentDate = dayjs().format("MMM Do")
-      return meridiem + "/" + currentDate + "%" + scheduleItem
+      return hourIndex + meridiem + "/" + currentDate + "%" + scheduleItem
     })
     localStorage.setItem("schedule", JSON.stringify(formattedSchedule))
   }
 
-  const currentDate = dayjs().format("MMM Do")
   let schedule = JSON.parse(localStorage.getItem("schedule"))
 
   if (!schedule) {
     schedule = createEmptySchedule()
     updateSchedule(schedule)
   }
-
+  createSchedule(currentTime)
   let allSaveBtn = $(".saveBtn")
   $(allSaveBtn).on("click", function() {
     let tScheduleArr = []
@@ -100,31 +98,28 @@ $(window).on('load', function() {
       let id = $(this).attr('id')
       let hourIndex = parseInt(id.split("-").pop()) // Extract the hour index from the id
       let inputAreaText = $(this).children('textarea.description').val()
-      tScheduleArr[hourIndex] = hourIndex + "%" + inputAreaText
+      tScheduleArr[hourIndex] = inputAreaText
     })
+    console.log(tScheduleArr)
     updateSchedule(tScheduleArr)
   })
 
-  let msUntilNextHour = 60 * 60 * 1000 - (dayjs().valueOf() % (60 * 60 * 1000))
-  setTimeout(function() {
-    updateHour()
-    setInterval(updateHour, 60 * 60 * 1000)
-  })
+  
+  updateHour()
 
   function updateHour() {
-    currentTime = (currentTime + 1) % 24
-    let newHour = (currentTime + 15) % 24
-    let newHourDiv = createHourDiv(newHour)
-    // Fade out the first child and remove it after it's hidden
-    hourContainer.children().first().fadeOut(function() { $(this).remove(); })
-    // Animate the change in margin-top
-    hourContainer.animate({ marginTop: "-=100px" }, 1000, function() {
-      hourContainer.css({ marginTop: "0px" })
-      hourContainer.children().first().remove(); // Remove the first hour after the animation finishes
-    })
-    // Append the new child and fade it in
-    hourContainer.append(newHourDiv)
-    newHourDiv.hide().fadeIn()
+    if (dayjs().hour() != currentTime) {
+      // Fade out the first child and remove it after it's hidden
+      hourContainer.children().first().fadeOut(function() { $(this).remove(); })
+    
+      currentTime = (currentTime + 1) % 24
+      let newHourDiv = createHourDiv((currentTime + 15) % 24)
+      // Append the new child and fade it in
+      hourContainer.append(newHourDiv)
+      newHourDiv.hide().fadeIn()
+    }
+    let msUntilNextHour = 60 * 60 * 1000 - (dayjs().valueOf() % (60 * 60 * 1000))
+    setTimeout(updateHour, msUntilNextHour)  
   }
-  setInterval(updateHour, 60 * 60 * 1000)
+
 })
