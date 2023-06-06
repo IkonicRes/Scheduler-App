@@ -63,6 +63,7 @@ $('#prev-day').on('click', function() {
     let today = dayjs();
     let isPast = currentDay.isBefore(today, 'day');
     let isFuture = currentDay.isAfter(today, 'day');
+    let currentTime = today.hour();  // update currentTime
     for (let index = 0; index < 24; index++) {
         let hour = index % 12
         hour = (hour === 0) ? 12 : hour
