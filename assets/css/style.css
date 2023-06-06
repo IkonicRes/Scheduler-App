@@ -1,75 +1,67 @@
+/* Set the height of the body to the full height, the font size to 1 times the parent element, and set the font-family to sans-serif */
 body {
     font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     height: 100%;
 }
-.hour {
-    transition: margin-top 1s;
+/* Make the text color of the nav-buttons to match the header text */
+.nav-btn {
+    color: #32fbe2
 }
-#time-container {
+/* Set the main container's position to relative, so the animation when you change days plays and the schedule moves offscreen instead of just blinking */
+main {
     position: relative;
 }
+/* Set the textarea to a transparent background, so we can see the timeRelevance color. Set the resize to none so people cant just drag and resize the boxes, the color of the text to black to see it better
+against the background colors, a border of 1px solid grey and one on top of black to outline it, and a bit of padding so the text isnt right up against the edge. */
 textarea {
 background: transparent;
-border: none;
 resize: none;
 color: #000000;
-border-left: 1px solid black;
+border: 1px solid grey;
 padding: 10px;
+white-space: pre-wrap;
+border-top: 1px solid black;
+color: black;
 }
-
+/* Set the background of the time-text-box on the left of the hour label so it matches the opposite side, set the text color to whitesmoke so its symmetrical, and add a border radius on the left and top so it matches the right side */
 #time-text-box {
     background-color: #06aed5;
     color: whitesmoke;
     border-radius: 1rem 0em 0em 1rem;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
 }
-
-.description {
-white-space: pre-wrap;
-}
-
+/* Set the border radius to 15 px for the time-block, so the timeRelevance color doesnt bleed through the sides. */
 .time-block {
 border-radius: 15px;
 }
-
+/* Add a top border to all row class to make a separator for the timeblocks */
 .row {
 border-top: 1px solid white;
 }
-
-.hour {
-background-color: #ffffff;
-color: #000000;
-border-top: 1px dashed #000000;
-}
-
+/* Set the background color for the past class.. */
 .past {
-background-color: #ff4f4f;
-color: white;
+background-color: #fb2d2d;
 }
-
+/* the present class... */
 .present {
-background-color: #31e734;
-color: white;
+background-color: #20fb24;
 }
-
+/* and the future class.  */
 .future {
-background-color: #46ddff;
-color: white;
+background-color: #24d7ff;
 }
-
+/* Set the background color of all save buttons to the same as the opposite side, add a nice border to the left and top of it to separate button and text, curve the right radius, and set the text color to white. */
 .saveBtn {
+border-top: 1px solid black;
 border-left: 1px solid black;
 border-top-right-radius: 15px;
 border-bottom-right-radius: 15px;
 background-color: #06aed5;
 color: white;
 }
-
+/* Change the color of the save button to green when hovered over. */
 .saveBtn:hover {
-    background-color: greenyellow;
-}
-
-.saveBtn i:hover {
-font-size: 20px;
-transition: all 0.3s ease-in-out;
+    background-color: #20fb24;
 }
