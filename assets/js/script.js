@@ -49,22 +49,30 @@ $(window).on('load', function() {
 
   function renderSchedule(schedule) {
     hourContainer.empty()
+    let today = dayjs();
+    let isPast = currentDay.isBefore(today, 'day');
+    let isFuture = currentDay.isAfter(today, 'day');
     for (let index = 0; index < 24; index++) {
         let hour = index % 12
         hour = (hour === 0) ? 12 : hour
         let meridiem = (index < 12 || index === 24) ? "AM" : "PM"
         let timeVal = hour + meridiem;
-        
         // Add classes for past, present, and future hours
         let timeRelevance = ""
-        if (index < currentTime) {
+        if (isPast) {
             timeRelevance = "past"
-        } else if (index > currentTime) {
+        } else if (isFuture) {
             timeRelevance = "future"
         } else {
-            timeRelevance = "present"
+            if (index < currentTime) {
+                timeRelevance = "past"
+            } else if (index > currentTime) {
+                timeRelevance = "future"
+            } else {
+                timeRelevance = "present"
+            }
         }
-        
+
         let hourDiv = $('<div id="hour-' + index + '"' + ' class="row time-block ' + timeRelevance + '"></div>')
         let timeText = $('<div id="time-text-box" class="col-2 col-md-1 hour text-center py-3">' + timeVal + '</div>')
         let inputArea = $('<textarea class="col-8 col-md-10 description" rows="3">' + (schedule[index] || "") + '</textarea>')
@@ -75,7 +83,6 @@ $(window).on('load', function() {
         hourContainer.append(hourDiv)
     }
 }
-
   function saveSchedule() {
     let schedule = {};
     $('.time-block').each(function() {
