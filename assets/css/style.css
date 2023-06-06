@@ -6,7 +6,9 @@ body {
 .hour {
     transition: margin-top 1s;
 }
-
+#time-container {
+    position: relative;
+}
 textarea {
 background: transparent;
 border: none;

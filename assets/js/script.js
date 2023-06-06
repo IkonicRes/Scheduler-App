@@ -10,17 +10,28 @@ $(window).on('load', function() {
 
   $(navEl).append(prevButton, nextButton)
 
-  // Handler for next day button
-  $('#next-day').on('click', function() {
-    saveSchedule();
-    changeDay(1);
-  });
+// Animation duration in milliseconds
+var animationDuration = 1000;
 
-  // Handler for previous day button
-  $('#prev-day').on('click', function() {
-    saveSchedule();
-    changeDay(-1);
+// Handler for next day button
+$('#next-day').on('click', function() {
+  saveSchedule();
+  hourContainer.animate({ 'left': '-=800px', 'opacity': '0' }, animationDuration, function() {
+    changeDay(1);
+    hourContainer.css({ 'left': '800px' });
+    hourContainer.animate({ 'left': '0', 'opacity': '1' }, animationDuration);
   });
+});
+
+// Handler for previous day button
+$('#prev-day').on('click', function() {
+  saveSchedule();
+  hourContainer.animate({ 'left': '+=800px', 'opacity': '0' }, animationDuration, function() {
+    changeDay(-1);
+    hourContainer.css({ 'left': '-800px' });
+    hourContainer.animate({ 'left': '0', 'opacity': '1' }, animationDuration);
+  });
+});
 
   function changeDay(days) {
     currentDay = currentDay.add(days, 'day');
