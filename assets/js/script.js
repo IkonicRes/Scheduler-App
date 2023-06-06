@@ -113,16 +113,19 @@ $('#prev-day').on('click', function() {
     saveSchedule();
   })
 
-  // Update hour every hour
-  function updateHour() {
-    let newDay = dayjs();
-    if (newDay.format("YYYY-MM-DD") !== currentDay.format("YYYY-MM-DD")) {
-      currentDay = newDay;
-      renderDay();
-    }
-    let msUntilNextHour = 60 * 60 * 1000 - (newDay.valueOf() % (60 * 60 * 1000))
-    setTimeout(updateHour, msUntilNextHour)  
+// Update hour every hour
+function updateHour() {
+  let newDay = dayjs();
+  if (newDay.format("YYYY-MM-DD") !== currentDay.format("YYYY-MM-DD")) {
+    hourContainer.animate({ 'left': '-=800px', 'opacity': '0' }, animationDuration, function() {
+      changeDay(1);
+      hourContainer.css({ 'left': '800px' });
+      hourContainer.animate({ 'left': '0', 'opacity': '1' }, animationDuration);
+    });
   }
+  let msUntilNextHour = 60 * 60 * 1000 - (newDay.valueOf() % (60 * 60 * 1000))
+  setTimeout(updateHour, msUntilNextHour)  
+}
 
   renderDay()
   updateHour()
