@@ -40,7 +40,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Features
 
 -Saves complete schedule calendar and associated text to localstorage, persisting through reload etc.
--Automatically updates color coding and day at turn of the hour
+-Automatically updates day at turn of the hour
 -Has buttons to navigate the schedule's days, allowing user to see past and future day's tasks and schedules.
 -Has cool theme and makes eyes happy
 -Fully commented/cleaned and written in jQuery/bootstrap making it easy to read and modify
