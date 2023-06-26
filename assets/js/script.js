@@ -2,6 +2,7 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(window).on('load', function() {
+  alert(navigator.userAgent)
   // Get the reference to the schedule's container
   const hourContainer = $("main")
   // Set the current day from dayjs' API
@@ -30,7 +31,7 @@ $(window).on('load', function() {
       // Fire the function to change the day +1
       changeDay(1)
       // Reset the animation offset and animate back to full opacity
-      hourContainer.css({ 'left': '800px' });
+      hourContainer.css({ 'left': '+800px' });
       hourContainer.animate({ 'left': '0', 'opacity': '1' }, animationDuration)
     });
   });
